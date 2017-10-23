@@ -1,6 +1,6 @@
 <?php
 
-function commerce_compu_commerce_product_ui_product_form_alter(&$form, &$form_state, $form_id) {
+function commerce_compu_form_commerce_product_ui_product_form_alter(&$form, &$form_state, $form_id) {
 
 	 $form['title'] = array(
     '#type' => 'textfield',
