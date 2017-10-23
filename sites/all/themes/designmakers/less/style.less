@@ -1,0 +1,46 @@
+// Bootstrap library.
+@import 'bootstrap';
+
+// Base-theme overrides.
+@import 'overrides';
+
+.dm-btn-primary {
+  .button-variant(@btn-primary-color; @dm-btn-primary-bg; @dm-btn-primary-border);
+  border-radius:0px;
+}
+
+.page-designer-makers h1.page-header, .node-type-designer-maker-profile h1.page-header{
+	border-bottom:0;
+	background-color:@dm-btn-primary-bg;
+	color:@btn-primary-color;
+	margin:0 -15px;
+	padding:20px 15px;
+}
+
+.page-designer-makers .main-container {
+	background-color:#dadadc;
+}
+
+.dm-designer-name {
+	background-color:#fff;
+	text-align:center;
+	padding:25px 0;
+}
+.dm-designer-product {
+	background-color:#fff;
+	width:350px;
+}
+.dm-designer-product img {
+	margin:0 auto;
+}
+#block-views-featured-designer-maker-block .block-title {
+	margin-top:30px;
+	margin-bottom:30px;
+}
+
+#block-views-featured-designer-maker-block {
+	margin-bottom:60px;
+}
+#block-views-featured-designer-maker-block .cards img {
+	background-color:#fff;
+}
