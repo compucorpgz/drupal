@@ -1,0 +1,4 @@
+name = CiviCrm Purchaser management
+description = Integrates Drupal purchaser with CiviCRM
+core = 7.x
+dependencies[] = civicrm
