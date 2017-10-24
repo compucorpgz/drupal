@@ -1,13 +1,39 @@
 <?php
+function commerce_compu_form_commerce_product_product_form_alter(&$form, &$form_state, $product) {
+    if (!civicrm_initialize()) {
+        return;
+    }
+    $product = $form_state['commerce_product'];
+    $dao = new CRM_Member_DAO_MembershipType();
+    
+    $dao->orderBy('weight');
+    $dao->find();
+    $membershipTypes = array();
+    while ($dao->fetch()) {
+        $membershipTypes[$dao -> id] = $dao -> name;
+    }
+    $form['grantmember'] = array(
+        '#type' => 'select',
+        '#title' => t('Membership type'),
+        '#default_value' => $product -> grantmember,
+        '#options' => $membershipTypes,
+        '#required' => false,
+        '#description' => t('If a membership granted to purchaser after putting an order'),
+    );
+    $form['actions']['submit']['#submit'][] = 'commerce_compu_form_commerce_product_product_form_submit';
+    
+    return $form;
+}
 
-function commerce_compu_form_commerce_product_ui_product_form_alter(&$form, &$form_state, $form_id) {
-
-	 $form['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Membership'),
-    '#default_value' => 'No membership',
-    '#maxlength' => 255,
-    '#required' => TRUE,
-    '#weight' => -5,
-  );
+function commerce_compu_form_commerce_product_product_form_submit (&$form, &$form_state) {
+    //global $user;
+    
+    //commerce_product_product_form_submit($form, $form_state);
+    $product = &$form_state['commerce_product'];
+    $product->grantmember = $form_state['values']['grantmember'];
+    field_attach_submit('commerce_product', $product, $form, $form_state);
+    
+    // Save the product.
+    commerce_product_save($product);
+    
 }
