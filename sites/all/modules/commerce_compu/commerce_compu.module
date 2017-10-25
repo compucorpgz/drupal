@@ -37,3 +37,23 @@ function commerce_compu_form_commerce_product_product_form_submit (&$form, &$for
     commerce_product_save($product);
     
 }
+
+function commerce_compu_grant_membership_on_ordercomplete($order) {
+  if (!civicrm_initialize()) {
+    return;
+  }
+
+  // Find or create a CiviCRM contact ID for the customer.
+  $cid = _commerce_civicrm_get_cid($order);
+  foreach ($order->commerce_line_items['und'] as $line) {
+      $line_item = commerce_line_item_load($line['line_item_id']);
+      foreach ($line_item ->commerce_product['und'] as $lineitemUN) {
+          $product_id = $lineitemUN['product_id'];
+          $product = commerce_product_load($product_id);
+          
+          if ($product && $product -> grantmember) {
+              civicrm_api3 ('Membership', 'create',array('membership_type_id' => $product -> grantmember, 'contact_id' => $cid, 'status_id' => 1));
+          }
+      }
+  }
+}
